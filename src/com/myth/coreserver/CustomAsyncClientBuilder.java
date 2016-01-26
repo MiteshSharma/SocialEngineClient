@@ -1,4 +1,4 @@
-package com.myth.server;
+package com.myth.coreserver;
 
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;

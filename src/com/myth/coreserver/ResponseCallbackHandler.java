@@ -1,4 +1,4 @@
-package com.myth.server;
+package com.myth.coreserver;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,17 +16,17 @@ import java.lang.reflect.Type;
  */
 public class ResponseCallbackHandler {
     private Type type;
-    private IResponseListener listener;
+    private ResponseCallbackListener listener;
     private static final String RETURN_TYPE = "application/json";
     private Gson gson;
 
-    public ResponseCallbackHandler(IResponseListener listener, Type type) {
+    public ResponseCallbackHandler(ResponseCallbackListener listener, Type type) {
         this.type = type;
         this.listener = listener;
         this.gson = new GsonBuilder().create();
     }
 
-    public ResponseCallbackHandler(IResponseListener listener, Type type, Gson gson) {
+    public ResponseCallbackHandler(ResponseCallbackListener listener, Type type, Gson gson) {
         this.type = type;
         this.listener = listener;
         this.gson = gson;
@@ -59,7 +59,7 @@ public class ResponseCallbackHandler {
         try {
             object = this.gson.fromJson(resultString, type);
         } catch (JsonSyntaxException ex) {
-            this.listener.failed(ex);
+            this.listener.failure(ex);
             throw ex;
         }
         if (listener != null) {
@@ -68,17 +68,11 @@ public class ResponseCallbackHandler {
     }
 
     public void failed(Exception e) {
-        this.listener.failed(e);
+        this.listener.failure(e);
     }
 
     public void cancelled() {
         this.listener.cancelled();
-    }
-
-    public interface IResponseListener {
-        Object failed(Exception e);
-        Object success(Object object);
-        Object cancelled();
     }
 
 }

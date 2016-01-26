@@ -1,4 +1,4 @@
-package com.myth.server;
+package com.myth.coreserver;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;

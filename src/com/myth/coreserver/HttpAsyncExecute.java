@@ -1,4 +1,4 @@
-package com.myth.server;
+package com.myth.coreserver;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.concurrent.FutureCallback;

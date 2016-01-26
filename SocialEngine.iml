@@ -10,5 +10,6 @@
     <orderEntry type="library" name="httpclient" level="application" />
     <orderEntry type="library" name="gson-2.5" level="application" />
     <orderEntry type="library" name="httpasyncclient-4.1.1" level="application" />
+    <orderEntry type="library" name="httpcore-nio-4.4.4" level="application" />
   </component>
 </module>

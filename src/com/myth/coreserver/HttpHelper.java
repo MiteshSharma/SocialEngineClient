@@ -1,4 +1,4 @@
-package com.myth.server;
+package com.myth.coreserver;
 
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
