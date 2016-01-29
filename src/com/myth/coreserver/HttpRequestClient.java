@@ -12,6 +12,8 @@ import java.util.Map;
  */
 class HttpRequestClient {
 
+    RequestInterceptor requestInterceptor;
+
     public void get(String baseUrl, Map<String,Object> paramMap, ResponseCallbackHandler handler, boolean isAsync) throws UnsupportedEncodingException {
         this.send(baseUrl, HttpMethodType.GET, paramMap, new HashMap<>(), Charset.defaultCharset().name(), handler, isAsync);
     }
@@ -34,11 +36,29 @@ class HttpRequestClient {
         this.send(baseUrl, httpMethod, paramMap, new HashMap<>(), Charset.defaultCharset().name(), handler, isAsync);
     }
 
+    public void setRequestInterceptor(RequestInterceptor requestInterceptor) {
+        this.requestInterceptor = requestInterceptor;
+    }
+
     public void send(String baseUrl, HttpMethodType httpMethod,
                      Map<String,Object> paramMap, Map<String,String> headerMap, String encoding,
                      ResponseCallbackHandler handler, boolean isAsync) throws UnsupportedEncodingException {
         HttpRequestBase request = getRequest(baseUrl, httpMethod);
 
+        RequestDetail requestDetail = null;
+        if (this.requestInterceptor != null) {
+            requestDetail = this.requestInterceptor.intercept();
+        }
+        if (requestDetail != null) {
+            if (headerMap == null) {
+                headerMap = new HashMap<>();
+            }
+            headerMap.putAll(requestDetail.getHeaderMap());
+            if (paramMap == null) {
+                paramMap = new HashMap<>();
+            }
+            paramMap.putAll(requestDetail.getParamMap());
+        }
         for (Map.Entry<String, String> headerEntry : headerMap.entrySet()) {
             request.setHeader(headerEntry.getKey(), headerEntry.getValue());
         }

@@ -8,17 +8,9 @@ import java.util.Map;
  */
 public class HttpManager {
 
-    private static HttpManager httpManager;
     private HttpRequestClient httpRequestClient;
 
-    public static HttpManager getInstance() {
-        if (httpManager == null) {
-            httpManager = new HttpManager();
-        }
-        return httpManager;
-    }
-
-    private HttpManager() {
+    public HttpManager() {
         httpRequestClient = new HttpRequestClient();
     }
 
@@ -62,7 +54,7 @@ public class HttpManager {
         }
     }
 
-    public static void dispose() {
-        httpManager = null;
+    public void setRequestInterceptor(RequestInterceptor requestInterceptor) {
+        this.httpRequestClient.setRequestInterceptor(requestInterceptor);
     }
 }

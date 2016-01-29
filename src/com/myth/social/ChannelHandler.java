@@ -14,6 +14,6 @@ public class ChannelHandler extends BaseHandler {
 
     public void createChannel(Channel channel) {
         this.startEvent(EventType.CREATE_CHANNEL);
-        ServerApi.createChannel(channel, this);
+        ServerApi.getInstance().createChannel(channel, this);
     }
 }
