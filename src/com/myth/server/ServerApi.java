@@ -1,17 +1,6 @@
 package com.myth.server;
 
-import com.google.gson.reflect.TypeToken;
 import com.myth.coreserver.HttpManager;
-import com.myth.coreserver.ResponseCallbackHandler;
-import com.myth.coreserver.ResponseCallbackListener;
-import com.myth.pojo.Channel;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by mitesh on 26/01/16.
@@ -19,7 +8,15 @@ import java.util.Map;
 public class ServerApi {
 
     private static ServerApi mInstance;
-    HttpManager httpManager;
+    private HttpManager httpManager;
+    private ChannelApi channelApi;
+    private ChannelDetailApi channelDetailApi;
+    private ChannelPropertyApi channelPropertyApi;
+    private ChannelSharedObjectApi channelSharedObjectApi;
+    private ObjectLikeApi objectLikeApi;
+    private ObjectCommentApi objectCommentApi;
+    private ObjectDetailApi objectDetailApi;
+    private UserApi userApi;
 
     public static ServerApi getInstance() {
         if (mInstance == null) {
@@ -33,12 +30,60 @@ public class ServerApi {
         this.httpManager.setRequestInterceptor(new MainServerInterceptor());
     }
 
-    public void createChannel(Channel channel, ResponseCallbackListener listener) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("channel", JsonParser.getInstance().toJson(channel));
-        this.httpManager.post(ServerUrl.CREATE_CHANNEL, params,
-                new ResponseCallbackHandler(listener, new TypeToken<Channel>() {
-                }.getType()), true);
+    public ChannelApi getChannelApi() {
+        if (channelApi == null) {
+            channelApi = new ChannelApi(httpManager);
+        }
+        return channelApi;
+    }
+
+    public ChannelDetailApi getChannelDetailApi() {
+        if (channelDetailApi == null) {
+            channelDetailApi = new ChannelDetailApi(httpManager);
+        }
+        return channelDetailApi;
+    }
+
+    public ChannelPropertyApi getChannelPropertyApi() {
+        if (channelPropertyApi == null) {
+            channelPropertyApi = new ChannelPropertyApi(httpManager);
+        }
+        return channelPropertyApi;
+    }
+
+    public ChannelSharedObjectApi getChannelSharedObjectApi() {
+        if (channelSharedObjectApi == null) {
+            channelSharedObjectApi = new ChannelSharedObjectApi(httpManager);
+        }
+        return channelSharedObjectApi;
+    }
+
+    public ObjectLikeApi getObjectLikeApi() {
+        if(objectLikeApi == null) {
+            objectLikeApi = new ObjectLikeApi(httpManager);
+        }
+        return objectLikeApi;
+    }
+
+    public ObjectCommentApi getObjectCommentApi() {
+        if(objectCommentApi == null) {
+            objectCommentApi = new ObjectCommentApi(httpManager);
+        }
+        return objectCommentApi;
+    }
+
+    public ObjectDetailApi getObjectDetailApi() {
+        if(objectDetailApi == null) {
+            objectDetailApi = new ObjectDetailApi(httpManager);
+        }
+        return objectDetailApi;
+    }
+
+    public UserApi getUserApi() {
+        if(userApi == null) {
+            userApi = new UserApi(httpManager);
+        }
+        return userApi;
     }
 
     public static void dispose() {
