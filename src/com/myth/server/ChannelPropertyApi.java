@@ -8,6 +8,7 @@ import com.myth.pojo.Channel;
 import com.myth.pojo.ChannelProperty;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,12 +41,13 @@ public class ChannelPropertyApi {
                 }.getType()), true);
     }
 
-    public void read(Channel channel, String name, ResponseCallbackListener listener) {
+    public void read(Channel channel, String name, String requestType, ResponseCallbackListener listener) {
         Map<String, Object> params = new HashMap<>();
         params.put("channel", JsonParser.getInstance().toJson(channel));
         params.put("name", name);
+        params.put("request_type", requestType);
         this.httpManager.get(ServerUrl.CHANNEL_PROPERTY, params,
-                new ResponseCallbackHandler(listener, new TypeToken<ChannelProperty>() {
+                new ResponseCallbackHandler(listener, new TypeToken<List<ChannelProperty>>() {
                 }.getType()), true);
     }
 
